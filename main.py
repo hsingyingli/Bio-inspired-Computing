@@ -3,9 +3,8 @@ from Framework import *
 
 
 def main(args):
-    env = Ackley(dim = args.dim)
-    ga  = GA(args)
-    ga.evolve()
+    solve = Framwork(args)
+    solve.train()
 
 
 if __name__ == "__main__":
@@ -15,7 +14,8 @@ if __name__ == "__main__":
     parser.add_argument('--cross_mode'     , type = str     , default = 'two_point')
     parser.add_argument('--population'     , type = int     , default = 100)
     parser.add_argument('--generation'     , type = int     , default = 500)
-    parser.add_argument('--dim'            , type = int     , default = 32)
+    parser.add_argument('--dim'            , type = int     , default = 100)
+    parser.add_argument('--bound'          , type = int     , default = 32)
     
     args = parser.parse_args()
     print(args)

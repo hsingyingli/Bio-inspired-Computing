@@ -12,7 +12,7 @@ class GA():
 
         #initial populatiom
         self.pop = np.random.randint(low = -args.bound, high = args.bound, size = (100,1))
-
+        self.best_fitness = 0
     def get_fitness(self, x):
         y = self.env.get_y([self.gray_to_dec(i) for i in x])
         
@@ -39,8 +39,8 @@ class GA():
         for i in range(0,len(_bin_)-1):
             result += str(int(_bin_[i]) ^ int(_bin_[i+1]))
         if(flag):
-            return '1' + result.zfill(5)
-        return result.zfill(6)
+            return '1' + result.zfill(6)
+        return result.zfill(7)
     
     def gray_to_dec(self, x):
         flag = 0
@@ -132,7 +132,20 @@ class GA():
         parent = self.select(x, fitness)
         child = self.crossover(parent)      
         child = self.mutate(child)
-        self.pop = np.array([self.gray_to_dec(i) for i in child])
+        self.survivor(child)
+
+        self.best_fitness = np.max(fitness)
+
         return self.env.get_y(self.pop)
+
+    def survivor(self, child):
+        tmp_fitness= self.get_fitness(child).tolist()
+        survivor = np.array( child[[tmp_fitness.index(i) for i in tmp_fitness if i >= self.best_fitness]])
+        survivor = np.array([self.gray_to_dec(i) for i in survivor])
+        survivor = np.concatenate((survivor,np.sort(np.abs(self.pop)).reshape(-1)))
+        
+        self.pop = survivor[:100]
+        
+
         
         

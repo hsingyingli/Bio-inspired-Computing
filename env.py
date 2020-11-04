@@ -21,7 +21,7 @@ class Ackley():
         plt.plot(x,y)
         plt.scatter(pop ,pop_y , s=10, c='k')
         plt.text(-0.05, -0.05, "Fitness=%.4f" % fitness, fontdict={'size': 20, 'color': 'red'})
-        plt.pause(0.01)
+        plt.pause(1)
 
 
 
