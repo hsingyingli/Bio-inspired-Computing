@@ -39,8 +39,8 @@ class GA():
         for i in range(0,len(_bin_)-1):
             result += str(int(_bin_[i]) ^ int(_bin_[i+1]))
         if(flag):
-            return '1' + result.zfill(99)
-        return result.zfill(100)
+            return '1' + result.zfill(5)
+        return result.zfill(6)
     
     def gray_to_dec(self, x):
         flag = 0
@@ -66,8 +66,8 @@ class GA():
         # return x[idx]
         mate = []
         for i in range(self.POP_SIZE):
-            a = int(np.random.randint(0,self.POP_SIZE,size = (1)))
-            b = int(np.random.randint(0,self.POP_SIZE,size = (1)))
+            a = int(np.random.randint(0,len(x[i])-1,size = (1)))
+            b = int(np.random.randint(0,len(x[i])-1,size = (1)))
             if(fitness[b] > fitness[a]):
                 a = b
             mate.append(x[a])
@@ -85,19 +85,13 @@ class GA():
     def two_point(self, parent):
         child = []
         for i in range(0,self.POP_SIZE,2):
-            a ,b = np.sort(np.random.randint(1,99,size = (2)))
+            a ,b = np.sort(np.random.randint(1,len(parent[i])-1,size = (2)))
             
             child1 = parent[i][:a]   + parent[i+1][a:b] + parent[i][b:]
             child2 = parent[i+1][:a] + parent[i][a:b]   + parent[i+1][b:]
             child.append(child1)
             child.append(child2)
-            print(a)
-            print(b)
-            print(parent[i])
-            print(parent[i+1])
-            print(child1)
-            print(child2)
-            input()
+            
 
 
         return np.array(child)
@@ -136,13 +130,9 @@ class GA():
     
     def evolve(self, x, fitness):
         parent = self.select(x, fitness)
-        print("selection")
-        print(np.array([self.gray_to_dec(i) for i in parent]))
-        child = self.crossover(parent)
-        print("crossover")
-        print(np.array([self.gray_to_dec(i) for i in child]))
-        
+        child = self.crossover(parent)      
         child = self.mutate(child)
         self.pop = np.array([self.gray_to_dec(i) for i in child])
-        print(self.pop)
-        input()
+        return self.env.get_y(self.pop)
+        
+        

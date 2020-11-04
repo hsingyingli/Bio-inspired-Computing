@@ -21,9 +21,12 @@ class Framwork():
             x       = self.ga.translateDNA()
             fitness = self.ga.get_fitness(x)
 
-            self.ga.evolve(x, fitness)
-            print("\n\n")
-
+            y       = self.ga.evolve(x, fitness)
+            best_idx = np.argmax(fitness)
+            print('Gen:', generation, '| best fit: %.2f' % fitness[best_idx], '| best y: %f'%np.mean(y[best_idx]))
+            self.ga.env.draw(self.ga.pop, fitness[best_idx])
+        plt.ioff()
+        plt.show()
 
         
      
