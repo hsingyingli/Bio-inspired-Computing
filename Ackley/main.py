@@ -18,6 +18,8 @@ if __name__ == "__main__":
     parser.add_argument('--dim'               , type = int     , default = 10)
     parser.add_argument('--bound'             , type = int     , default = 32)
     parser.add_argument('--k'                 , type = int     , default = 2)
+    parser.add_argument('--dna_size'          , type = float   , default = 10)
+    parser.add_argument('--pc'                , type = float   , default = 0.9)
     
     args = parser.parse_args()
     print(args)

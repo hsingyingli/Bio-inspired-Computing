@@ -11,7 +11,7 @@ class mutation():
         self.dim   = dim
 
     def mutate(self, child):
-        if(self.mode == "Bit_flip"):
+        if(self.mode == "bit_flip"):
             child = self.Bit_flip(child)
         elif(self.mode == "random_reset"):
             child = self.Random_reset(child)
@@ -19,7 +19,15 @@ class mutation():
         return child
     
     def Bit_flip(self, child):
-        pass
+        for i in range(child.shape[0]):
+            for j in range(len(child[i])):    
+                if(np.random.random() < 1/(len(child[i]))):
+                    '''
+                    IF I = 2 , Translate 10'1'00101 to 10'0'00101 
+                    '''
+                    child[i][j] = child[i][j] ^ 1
+
+        return np.array(child)
         
     def Random_reset(self, child):
         '''
