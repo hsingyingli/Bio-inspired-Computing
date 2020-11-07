@@ -14,11 +14,11 @@ class Ackley():
 
 if __name__ == "__main__":
     env = Ackley(10)
-    data = np.random.randn(100,10)
+    data = np.array([[0,1,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0]])
    
     print(data.shape)
     fitness = []
     for i in data:
         fitness.append(env.function(i))
-    print(np.array(fitness).shape)
+    print(np.array(fitness))
 

@@ -1,5 +1,6 @@
 import numpy as np
 import pandas as pd
+import copy
 
 class GA():
     def __init__(self, args, env):
@@ -50,10 +51,10 @@ class GA():
         mate = []
         for i in range(self.popuation_size):
             a = int(np.random.randint(0,self.popuation_size,size = (1)))
-            for j in range(1,self.k):
-                b = int(np.random.randint(0,self.popuation_size,size = (1)))
-                if(fitness[b] < fitness[a]):
-                    a = b
+            # for j in range(1,self.k):
+            b = int(np.random.randint(0,self.popuation_size,size = (1)))
+            if(fitness[b] < fitness[a]):
+                a = b
             mate.append(x[a])
             
 
@@ -73,11 +74,9 @@ class GA():
         child = []
         for i in range(0, self.popuation_size, 2):
             a, b = np.random.randint(0, self.popuation_size, size = (2))
-            tmp  = (parent[a] + parent[b]) / 2
             
-
-            child.append(tmp)
-            child.append(tmp)
+            child.append((parent[a]*0.9 + parent[b]*0.1))
+            child.append((parent[a]*0.1 + parent[b]*0.9))
              
         
         return np.array(child)
@@ -97,11 +96,11 @@ class GA():
         '''
         child: (popuation size, dim)
         '''  
-        for i in range(child.shape[0]):
+        for i in range(child.shape[0]):    
             for j in range(child.shape[1]):
-                if(np.random.randn()<(1/self.dim)):                  
+                if(np.random.random()<(1/self.dim)):                  
                     child[i][j] = ((np.random.random(1)-0.5)*self.bound*2)[0]
-
+                
         return np.array(child)
 
     def evolve(self, x, fitness):
@@ -111,6 +110,8 @@ class GA():
         
         self.survivor(child, parent)
         return self.get_fitness(self.pop)
+
+        
         
         
     def survivor(self, child, parent):
@@ -121,10 +122,9 @@ class GA():
         df["tmp_index"]   = [i for i in range(self.popuation_size)]
         df['fitness'] = self.get_fitness(parent)
         df.sort_values(by = ["fitness"])
-
         survivor = np.concatenate((survivor,parent[df.tmp_index.values]))
 
-        self.pop = survivor[:100]
+        self.pop = survivor[:self.popuation_size]
         
         
 
